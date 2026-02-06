@@ -1,20 +1,21 @@
 <p align="center">
     <a href="https://t.me/curexcrate_bot">
-        <img src="https://helltar.com/projects/curexcrate_bot/img/t_me_curexcrate_bot.jpg">
+        <img src="https://helltar.com/projects/curexcrate-bot/img/t-me-curexcrate-bot.jpg" alt="t.me/curexcrate_bot">
     </a>
 </p>
 
-### Run in Docker
+### Docker
 
 ```bash
-docker run --rm -d \
-  --name curexcratebot \
+docker run -d \
+  --name curexcrate-bot \
+  --restart unless-stopped \
   -e CREATOR_ID=12345 \
   -e BOT_TOKEN=123:xxx \
-  -e BOT_USERNAME=name_bot \
-  ghcr.io/helltar/curexcratebot:latest
+  -e BOT_USERNAME=my_bot \
+  ghcr.io/helltar/curexcrate-bot:latest
 ```
 
-### Commands
+### Usage
 
-- `/cur` (Example: `/cur 1 usd to uah`)
+- `/cur` - currency conversion (e.g. `/cur 1 usd to uah`)
