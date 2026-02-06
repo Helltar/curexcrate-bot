@@ -1,3 +1,2 @@
 
-rootProject.name = "curexcrate_bot"
-
+rootProject.name = "curexcrate-bot"
