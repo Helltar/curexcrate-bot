@@ -1,12 +1,10 @@
 package commands
 
-import Google.extractCoinInfo
+import Google.extractCryptoInfo
 import Google.extractCurrencyInfo
 import Google.extractGoogleFinanceLink
-import Google.fetchGoogleHtml
-import Strings.HOW_TO_USE
-import Strings.INVALID_QUERY
-import Strings.PARSING_ERROR
+import Google.searchGoogle
+import Strings
 import com.annimon.tgbotsmodule.commands.CommandBundle
 import com.annimon.tgbotsmodule.commands.CommandRegistry
 import com.annimon.tgbotsmodule.commands.SimpleCommand
@@ -24,33 +22,36 @@ class CurCommand : CommandBundle<For> {
     override fun register(registry: CommandRegistry<For>) {
         registry.register(SimpleCommand("/cur") { ctx ->
             if (ctx.arguments().isEmpty()) {
-                replyToMessage(ctx, HOW_TO_USE)
+                replyToMessage(ctx, Strings.HOW_TO_USE)
                 return@SimpleCommand
             }
 
             val query = ctx.argumentsAsString()
 
             if (query.length !in 8..64) {
-                replyToMessage(ctx, INVALID_QUERY)
+                replyToMessage(ctx, Strings.INVALID_QUERY)
                 return@SimpleCommand
             }
 
             val languageCode = ctx.message().from.languageCode ?: "en"
 
             try {
-                val googleHtml = fetchGoogleHtml(query, languageCode)
-                var result = extractCurrencyInfo(googleHtml) ?: extractCoinInfo(googleHtml)
+                val html = searchGoogle(query, languageCode)
 
-                if (result == null) {
-                    result = PARSING_ERROR
-                    log.error { "Invalid google response: $googleHtml" }
-                }
+                val result =
+                    extractCurrencyInfo(html)
+                        ?: extractCryptoInfo(html)
+                        ?: run {
+                            log.error { "Invalid google response: $html" }
+                            Strings.PARSING_ERROR
+                        }
 
-                val googleFinanceLink = extractGoogleFinanceLink(googleHtml)
+                val googleFinanceLink = extractGoogleFinanceLink(html)
 
                 replyToMessage(ctx, "$result\n\n$googleFinanceLink")
             } catch (e: Exception) {
-                log.error { e.message }
+                log.error(e) { "Google search failed for query: $query" }
+                replyToMessage(ctx, Strings.REQUEST_FAILED)
             }
         })
     }
