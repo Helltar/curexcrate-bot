@@ -9,8 +9,12 @@ RUN gradle shadowJar --no-daemon
 
 FROM eclipse-temurin:21-jre-alpine
 
+RUN adduser -u 10001 -D -s /bin/sh curexcrate-bot
+
 WORKDIR /app
 
 COPY --from=builder /app/build/libs/*.jar curexcrate-bot.jar
+
+USER curexcrate-bot
 
 ENTRYPOINT ["java", "-jar", "curexcrate-bot.jar"]
