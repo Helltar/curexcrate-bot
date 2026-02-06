@@ -11,7 +11,7 @@ import commands.StartCommand
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod
 import org.telegram.telegrambots.meta.api.objects.Update
 
-class CurexcrateBotHandler(botModuleOptions: BotModuleOptions) : BotHandler(botModuleOptions) {
+class CurExcRateBotHandler(botModuleOptions: BotModuleOptions) : BotHandler(botModuleOptions) {
 
     private val commandRegistry = CommandRegistry(telegramBotUsername, SimpleAuthority(creatorId))
 
