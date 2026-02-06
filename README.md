@@ -1,6 +1,6 @@
 <p align="center">
     <a href="https://t.me/curexcrate_bot">
-        <img src="https://helltar.com/projects/curexcrate-bot/img/t-me-curexcrate-bot.jpg" alt="t.me/curexcrate_bot">
+        <img src="https://helltar.com/projects/curexcrate-bot/img/t-me-qr-code.png" alt="qr_code" width="35%">
     </a>
 </p>
 
