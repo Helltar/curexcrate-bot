@@ -11,6 +11,6 @@ FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app
 
-COPY --from=builder /app/build/libs/*.jar curexcratebot.jar
+COPY --from=builder /app/build/libs/*.jar curexcrate-bot.jar
 
-ENTRYPOINT ["java", "-jar", "curexcratebot.jar"]
+ENTRYPOINT ["java", "-jar", "curexcrate-bot.jar"]
