@@ -1,0 +1,23 @@
+{
+  "ada": "cardano",
+  "avax": "avalanche-2",
+  "bch": "bitcoin-cash",
+  "bnb": "binancecoin",
+  "btc": "bitcoin",
+  "doge": "dogecoin",
+  "dot": "polkadot",
+  "etc": "ethereum-classic",
+  "eth": "ethereum",
+  "link": "chainlink",
+  "ltc": "litecoin",
+  "matic": "matic-network",
+  "sol": "solana",
+  "ton": "the-open-network",
+  "trx": "tron",
+  "usdc": "usd-coin",
+  "usdt": "tether",
+  "xbt": "bitcoin",
+  "xlm": "stellar",
+  "xmr": "monero",
+  "xrp": "ripple"
+}
