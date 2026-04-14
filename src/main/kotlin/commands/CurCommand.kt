@@ -1,9 +1,5 @@
 package commands
 
-import Google.extractCryptoInfo
-import Google.extractCurrencyInfo
-import Google.extractGoogleFinanceLink
-import Google.searchGoogle
 import Strings
 import com.annimon.tgbotsmodule.commands.CommandBundle
 import com.annimon.tgbotsmodule.commands.CommandRegistry
@@ -12,6 +8,7 @@ import com.annimon.tgbotsmodule.commands.authority.For
 import com.annimon.tgbotsmodule.commands.context.MessageContext
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.telegram.telegrambots.meta.api.methods.ParseMode
+import currency.CurrencyConverter.convert
 
 class CurCommand : CommandBundle<For> {
 
@@ -33,24 +30,11 @@ class CurCommand : CommandBundle<For> {
                 return@SimpleCommand
             }
 
-            val languageCode = ctx.message().from.languageCode ?: "en"
-
             try {
-                val html = searchGoogle(query, languageCode)
-
-                val result =
-                    extractCurrencyInfo(html)
-                        ?: extractCryptoInfo(html)
-                        ?: run {
-                            log.error { "Invalid google response: $html" }
-                            Strings.PARSING_ERROR
-                        }
-
-                val googleFinanceLink = extractGoogleFinanceLink(html)
-
-                replyToMessage(ctx, "$result\n\n$googleFinanceLink")
+                val result = convert(query) ?: Strings.PARSING_ERROR
+                replyToMessage(ctx, result)
             } catch (e: Exception) {
-                log.error(e) { "Google search failed for query: $query" }
+                log.error(e) { "Currency conversion failed for query: $query" }
                 replyToMessage(ctx, Strings.REQUEST_FAILED)
             }
         })
