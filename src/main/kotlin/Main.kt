@@ -2,5 +2,6 @@ import bot.CurExcRateBot
 import com.annimon.tgbotsmodule.Runner
 
 fun main() {
-    Runner.run("", listOf(CurExcRateBot()))
+    val bot = CurExcRateBot(Config.telegramBotToken, Config.telegramBotUsername, Config.creatorId)
+    Runner.run("", listOf(bot))
 }
