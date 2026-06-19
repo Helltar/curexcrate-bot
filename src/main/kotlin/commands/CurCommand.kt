@@ -25,7 +25,7 @@ class CurCommand : CommandBundle<For> {
 
             val query = ctx.argumentsAsString()
 
-            if (query.length !in 8..64) {
+            if (query.length !in 3..100) {
                 replyToMessage(ctx, Strings.INVALID_QUERY)
                 return@SimpleCommand
             }

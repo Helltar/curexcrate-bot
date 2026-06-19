@@ -18,6 +18,7 @@ dependencies {
     implementation("io.github.cdimascio:dotenv-kotlin:6.5.1")
     implementation("io.github.oshai:kotlin-logging-jvm:7.0.14")
     runtimeOnly("ch.qos.logback:logback-classic:1.5.27")
+    testImplementation(kotlin("test"))
 }
 
 application {
@@ -26,4 +27,8 @@ application {
 
 kotlin {
     jvmToolchain(21)
+}
+
+tasks.test {
+    useJUnitPlatform()
 }

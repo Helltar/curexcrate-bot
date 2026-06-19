@@ -4,6 +4,10 @@ import currency.data.CurrencyDictionary
 import currency.models.CoinGeckoSimplePriceResponse
 import currency.models.FrankfurterRateResponse
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.contentOrNull
+import kotlinx.serialization.json.jsonArray
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -14,6 +18,7 @@ import java.util.concurrent.TimeUnit
 internal object CurrencyApiClient {
 
     private const val FIAT_API_URL = "https://api.frankfurter.dev/v2/rate"
+    private const val FIAT_CURRENCIES_URL = "https://api.frankfurter.dev/v2/currencies"
     private const val CRYPTO_API_URL = "https://api.coingecko.com/api/v3/simple/price"
     private const val USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
 
@@ -27,6 +32,14 @@ internal object CurrencyApiClient {
 
     fun fetchFiatRate(baseCode: String, quoteCode: String): FrankfurterRateResponse =
         json.decodeFromString(httpGet("$FIAT_API_URL/${baseCode.uppercase(Locale.US)}/${quoteCode.uppercase(Locale.US)}"))
+
+    /** Codes supported by Frankfurter, e.g. ["usd", "eur", ...]. Response is an array of currency objects. */
+    fun fetchSupportedFiatCurrencies(): Set<String> =
+        json.parseToJsonElement(httpGet(FIAT_CURRENCIES_URL))
+            .jsonArray
+            .mapNotNull { it.jsonObject["iso_code"]?.jsonPrimitive?.contentOrNull }
+            .map { it.lowercase(Locale.US) }
+            .toSet()
 
     fun fetchCryptoRates(codes: List<String>, quoteCurrency: String): CoinGeckoSimplePriceResponse {
         val ids =

@@ -1,5 +1,6 @@
 package currency
 
+import Strings
 import currency.api.CurrencyApiClient
 import currency.data.CurrencyDictionary
 import currency.models.CoinGeckoSimplePriceResponse
@@ -25,10 +26,14 @@ object CurrencyConverter {
             )
         }
 
-        return if (CurrencyDictionary.isCrypto(parsedQuery.from) || CurrencyDictionary.isCrypto(parsedQuery.to))
-            convertCrypto(parsedQuery)
-        else
-            convertFiat(parsedQuery)
+        if (CurrencyDictionary.isCrypto(parsedQuery.from) || CurrencyDictionary.isCrypto(parsedQuery.to))
+            return convertCrypto(parsedQuery)
+
+        listOf(parsedQuery.from, parsedQuery.to)
+            .firstOrNull { !CurrencyDictionary.isSupportedFiat(it) }
+            ?.let { return Strings.unsupportedCurrency(it) }
+
+        return convertFiat(parsedQuery)
     }
 
     private fun convertFiat(query: CurrencyConversionQuery): String {
