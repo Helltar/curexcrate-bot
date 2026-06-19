@@ -11,6 +11,6 @@ object Config {
     val telegramBotUsername = readEnv("BOT_USERNAME")
 
     private fun readEnv(env: String) =
-        dotenv[env].ifBlank { throw IllegalArgumentException("$env environment variable is blank") }
-            ?: throw IllegalArgumentException("$env environment variable is missing")
+        dotenv[env]?.ifBlank { throw IllegalArgumentException("environment variable $env is blank") }
+            ?: throw IllegalArgumentException("environment variable $env is missing")
 }
