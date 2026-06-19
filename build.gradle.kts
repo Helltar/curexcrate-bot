@@ -22,7 +22,7 @@ dependencies {
 }
 
 application {
-    mainClass.set("bot.CurExcRateBot")
+    mainClass.set("MainKt")
 }
 
 kotlin {
