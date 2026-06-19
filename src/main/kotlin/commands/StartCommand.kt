@@ -1,6 +1,6 @@
 package commands
 
-import Strings.HOW_TO_USE
+import BotMessages.HOW_TO_USE
 import com.annimon.tgbotsmodule.commands.CommandBundle
 import com.annimon.tgbotsmodule.commands.CommandRegistry
 import com.annimon.tgbotsmodule.commands.SimpleCommand

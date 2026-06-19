@@ -1,6 +1,6 @@
 package commands
 
-import Strings
+import BotMessages
 import com.annimon.tgbotsmodule.commands.CommandBundle
 import com.annimon.tgbotsmodule.commands.CommandRegistry
 import com.annimon.tgbotsmodule.commands.SimpleCommand
@@ -19,23 +19,23 @@ class CurCommand : CommandBundle<For> {
     override fun register(registry: CommandRegistry<For>) {
         registry.register(SimpleCommand("/cur") { ctx ->
             if (ctx.arguments().isEmpty()) {
-                replyToMessage(ctx, Strings.HOW_TO_USE)
+                replyToMessage(ctx, BotMessages.HOW_TO_USE)
                 return@SimpleCommand
             }
 
             val query = ctx.argumentsAsString()
 
             if (query.length !in 3..100) {
-                replyToMessage(ctx, Strings.INVALID_QUERY)
+                replyToMessage(ctx, BotMessages.INVALID_QUERY)
                 return@SimpleCommand
             }
 
             try {
-                val result = convert(query) ?: Strings.PARSING_ERROR
+                val result = convert(query) ?: BotMessages.PARSING_ERROR
                 replyToMessage(ctx, result)
             } catch (e: Exception) {
                 log.error(e) { "Currency conversion failed for query: $query" }
-                replyToMessage(ctx, Strings.REQUEST_FAILED)
+                replyToMessage(ctx, BotMessages.REQUEST_FAILED)
             }
         })
     }

@@ -1,6 +1,6 @@
 package currency
 
-import Strings
+import BotMessages
 import currency.api.CurrencyApiClient
 import currency.data.CurrencyDictionary
 import currency.models.CoinGeckoSimplePriceResponse
@@ -31,7 +31,7 @@ object CurrencyConverter {
 
         listOf(parsedQuery.from, parsedQuery.to)
             .firstOrNull { !CurrencyDictionary.isSupportedFiat(it) }
-            ?.let { return Strings.unsupportedCurrency(it) }
+            ?.let { return BotMessages.unsupportedCurrency(it) }
 
         return convertFiat(parsedQuery)
     }
