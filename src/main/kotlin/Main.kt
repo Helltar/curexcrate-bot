@@ -1,6 +1,6 @@
 import bot.CurExcRateBot
 import com.annimon.tgbotsmodule.Runner
-import health.Heartbeat
+import com.helltar.heartbeat.Heartbeat
 import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlin.system.exitProcess
 import kotlin.time.Duration.Companion.seconds
@@ -12,15 +12,14 @@ private val log = KotlinLogging.logger {}
 private val POLLING_START_TIMEOUT = 30.seconds
 
 fun main() {
-    val heartbeat = Heartbeat()
-    heartbeat.start()
+    val heartbeat = Heartbeat().start()
 
     val bot = CurExcRateBot(Config.telegramBotToken, Config.telegramBotUsername, Config.creatorId, heartbeat)
     Runner.run("", listOf(bot))
 
     // the runner only logs a failed registration and returns as if it had worked, so a bot that never
     // started polling would sit here alive and idle. exiting hands the retry to the container runtime.
-    if (!heartbeat.awaitFirstPoll(POLLING_START_TIMEOUT)) {
+    if (!heartbeat.awaitFirstBeat(POLLING_START_TIMEOUT)) {
         log.error {
             "Long polling did not start within ${POLLING_START_TIMEOUT.inWholeSeconds}s — " +
                     "exiting so the container is restarted"
